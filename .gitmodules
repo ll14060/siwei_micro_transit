@@ -4,3 +4,6 @@
 [submodule "TR_PartA"]
 	path = TR_PartA
 	url = https://github.com/ll14060/TR_PartA
+[submodule "Baysian-Optimization"]
+	path = Baysian-Optimization
+	url = https://github.com/ritunuci/Baysian-Optimization
