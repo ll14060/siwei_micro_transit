@@ -1,0 +1,2 @@
+test_area,BayesianOptimization,TRPartA,TRPartA_test_scenario_list,debug_mode_list,transit_fare ($),microtransit_dist_based_rate ($/mile),microtransit_start_fare ($),Fleet_size,PkFareFactor,OffPkFareFactor,Fixed2MicroFactor,Micro2FixedFactor
+lemon_grove,TRUE,TRUE,10,FALSE,5.0,0.0,3.0,7,4.0,1,0.5,2.3940891269264247e-16

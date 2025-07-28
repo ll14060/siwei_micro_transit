@@ -1,0 +1,3 @@
+Subsidy per transit trip ($),Weighted 15 min accessibility,trial_index,arm_name,Transit Fare ($),Micro distance based fare ($/mile),Micro start fare ($),Fleet size,Peak fare factor,Micro to fixed factor,trial_status,generation_method
+-35.35219073091846,6280.5751909851415,0,0_0,2.7651026248931885,1.3567617535591125,1.2478178143501282,5,2.780314266681671,0.19165627658367157,RUNNING,Sobol
+-40.970100146647596,6201.7818122577,1,1_0,5.0,5.0,3.0,2,1.0,1.0,RUNNING,BoTorch

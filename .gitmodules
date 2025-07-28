@@ -1,0 +1,6 @@
+[submodule "Ritun"]
+	path = Ritun
+	url = https://github.com/ll14060/Ritun.git
+[submodule "TR_PartA"]
+	path = TR_PartA
+	url = https://github.com/ll14060/TR_PartA

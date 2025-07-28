@@ -1,0 +1,50 @@
+,veh_3_req_100_virstp_0.1,veh_4_req_100_virstp_0.1
+operator_id,0.0,0.0
+number users,54.0,54.0
+number travelers,54.0,54.0
+modal split,1.0,1.0
+modal split rq,1.0,1.0
+reservation users,0.0,0.0
+reservation pax,0.0,0.0
+served reservation users [%],100.0,100.0
+served reservation pax [%],100.0,100.0
+online users,54.0,54.0
+online pax,54.0,54.0
+served online users [%],100.0,100.0
+served online pax [%],100.0,100.0
+% created offers,100.0,100.0
+utility,,
+travel time,165.59993479743437,167.12081250061792
+travel distance,,
+waiting time,113.20085237105239,113.75349091208922
+waiting time from ept,113.20085237104946,113.75349091208773
+waiting time (median),100.76804395047657,101.2009212062494
+waiting time (90% quantile),213.21039219509342,235.29719858986482
+detour time,4.227729277772596e-12,1.5208777031877645
+rel detour,4.224962027847394e-13,1.8183984633140848
+% fleet utilization,14.381553664020505,10.61158245746693
+rides per veh rev hours,12.516032982606086,12.721947979116544
+rides per veh rev hours rq,12.516032982606086,12.721947979116544
+total vkm,186.71875481647996,179.2134363754496
+occupancy,0.6254939007081272,0.657056819899689
+occupancy rq,0.6254939007081272,0.657056819899689
+% empty vkm,37.45060992918729,34.680086486243354
+% repositioning vkm,0.0,0.0
+customer direct distance [km],116.79144228552444,116.79144228552444
+saved distance [%],-59.87366125679102,-53.44740408061728
+trip distance per fleet distance,0.6254939007081272,0.6516890956816878
+trip distance per fleet distance (no reloc),0.6254939007081272,0.6516890956816878
+avg driving velocity [km/h],54.684612291179896,53.58239223468136
+avg trip velocity [km/h],0.04701750735525608,0.04658962600687157
+vehicle revenue hours [Fzg h],4.314466099206151,4.244632982986772
+total toll,0.0,0.0
+mod revenue,11961.0,11961.0
+mod fix costs,7500.0,10000.0
+mod var costs,4668.0,4480.0
+total CO2 emissions [t],0.00010456250269722877,0.00010035952437025176
+total external emission costs,2.0,1.0
+parking cost,,
+toll,0.0,0.0
+customer in vehicle distance,2162.804486768971,2180.6187145953368
+shared rides [%],0.0,3.703703703703704
+scenario_name,example_pool_irsonly_sc_1,example_pool_irsonly_sc_1
