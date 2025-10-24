@@ -1,72 +1,74 @@
+import os
 
-def determine_dolders(study_area,dt_sd_full_trnst_ntwk,zonal_partition,TRPartA,BayesianOptimization):
+def determine_dolders(study_area, dt_sd_full_trnst_ntwk, zonal_partition, TRPartA, BayesianOptimization):
+    base = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit")
 
-    if TRPartA==True:
-        if BayesianOptimization==True:
-            #D:\Siwei_Micro_Transit\Bayesian_Optimization\demand_data\downtown_sd
-            demand_folder="D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/demand_data/%s" % str(study_area)
+    if TRPartA:
+        if BayesianOptimization:
+            # demand folder
+            demand_folder = os.path.join(base, "Bayesian_Optimization", "demand_data", str(study_area))
+
             if study_area == "downtown_sd":
-                #D:\Siwei_Micro_Transit\TR_PartA\Data\downtown_sd\initial_network_folder\initial_full_transit_network
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
-                if zonal_partition == True:
-                    #D:\Siwei_Micro_Transit\Bayesian_Optimization\downtown_sd\initial_network_folder\initial_full_transit_network
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_full_transit_network_4_zones" % str(study_area)
+                fleetpy_demand_folder = os.path.join(base, "FleetPy_SanDiego", "data", "demand", "example_demand", "matched", "example_network")
+                if zonal_partition:
+                    initial_network_folder = os.path.join(base, "Bayesian_Optimization", str(study_area), "initial_network_folder", "initial_full_transit_network_4_zones")
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_full_transit_network" % str(study_area)
+                    initial_network_folder = os.path.join(base, "Bayesian_Optimization", str(study_area), "initial_network_folder", "initial_full_transit_network")
+
             if study_area == "lemon_grove":
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network"
-                if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_network_4_zones" % str(study_area)
+                fleetpy_demand_folder = os.path.join(base, "FleetPy_SanDiego", "data", "demand", "lemon_grove_example_demand", "matched", "lemon_grove_example_network")
+                if zonal_partition:
+                    initial_network_folder = os.path.join(base, "Bayesian_Optimization", str(study_area), "initial_network_folder", "initial_network_4_zones")
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_network" % str(study_area)
-                    #D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\initial_network_folder\initial_network
-            final_network_folder="D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/final_network_folder" % str(study_area)
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/output_folder" % str(study_area)
-            #D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\output_folder
+                    initial_network_folder = os.path.join(base, "Bayesian_Optimization", str(study_area), "initial_network_folder", "initial_network")
+
+            final_network_folder = os.path.join(base, "Bayesian_Optimization", str(study_area), "final_network_folder")
+            output_folder = os.path.join(base, "Bayesian_Optimization", str(study_area), "output_folder")
+
         else:
-            demand_folder="D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/demand_data/%s" % str(study_area)
-            if study_area == "downtown_sd":
-                #D:\Siwei_Micro_Transit\TR_PartA\Data\downtown_sd\initial_network_folder\initial_full_transit_network
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
-                if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_full_transit_network_4_zones" % str(study_area)
-                else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_full_transit_network" % str(study_area)
-            if study_area == "lemon_grove":
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network"
-                if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_network_4_zones" % str(study_area)
-                else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_network" % str(study_area)
-                    #D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\initial_network_folder\initial_network
-            final_network_folder="D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/final_network_folder" % str(study_area)
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/output_folder" % str(study_area)
-            #D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\output_folder
+            demand_folder = os.path.join(base, "TR_PartA", "Data", "demand_data", str(study_area))
 
+            if study_area == "downtown_sd":
+                fleetpy_demand_folder = os.path.join(base, "FleetPy_SanDiego", "data", "demand", "example_demand", "matched", "example_network")
+                if zonal_partition:
+                    initial_network_folder = os.path.join(base, "TR_PartA", "Data", str(study_area), "initial_network_folder", "initial_full_transit_network_4_zones")
+                else:
+                    initial_network_folder = os.path.join(base, "TR_PartA", "Data", str(study_area), "initial_network_folder", "initial_full_transit_network")
+
+            if study_area == "lemon_grove":
+                fleetpy_demand_folder = os.path.join(base, "FleetPy_SanDiego", "data", "demand", "lemon_grove_example_demand", "matched", "lemon_grove_example_network")
+                if zonal_partition:
+                    initial_network_folder = os.path.join(base, "TR_PartA", "Data", str(study_area), "initial_network_folder", "initial_network_4_zones")
+                else:
+                    initial_network_folder = os.path.join(base, "TR_PartA", "Data", str(study_area), "initial_network_folder", "initial_network")
+
+            final_network_folder = os.path.join(base, "TR_PartA", "Data", str(study_area), "final_network_folder")
+            output_folder = os.path.join(base, "TR_PartA", "Data", str(study_area), "output_folder")
 
     else:
         if study_area == "downtown_sd":
-            demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/demand_folder"
-            if dt_sd_full_trnst_ntwk==True:
-                if zonal_partition==True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network_4_zones"
+            demand_folder = os.path.join(base, "Data", "0719_input", "demand_folder")
+            if dt_sd_full_trnst_ntwk:
+                if zonal_partition:
+                    initial_network_folder = os.path.join(base, "Data", "0719_input", "initial_full_transit_network_4_zones")
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network"
+                    initial_network_folder = os.path.join(base, "Data", "0719_input", "initial_full_transit_network")
             else:
-                initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_network"
-            final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/final_network"
-            fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/output_folder"
+                initial_network_folder = os.path.join(base, "Data", "0719_input", "initial_network")
+
+            final_network_folder = os.path.join(base, "Data", "0719_input", "final_network")
+            fleetpy_demand_folder = os.path.join(base, "FleetPy_SanDiego", "data", "demand", "example_demand", "matched", "example_network")
+            output_folder = os.path.join(base, "Data", "0719_input", "output_folder")
 
         if study_area == "lemon_grove":
-
-            demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder"
-            if zonal_partition==False:
-                initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
+            demand_folder = os.path.join(base, "Data", "0719_input", "lemon_grove", "demand_folder")
+            if zonal_partition:
+                initial_network_folder = os.path.join(base, "Data", "0719_input", "lemon_grove", "initial_network_4_zones")
             else:
-                initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network_4_zones"
-            final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network"
-            fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network"
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder"
+                initial_network_folder = os.path.join(base, "Data", "0719_input", "lemon_grove", "initial_network")
 
-    return demand_folder,initial_network_folder,final_network_folder,fleetpy_demand_folder,output_folder
+            final_network_folder = os.path.join(base, "Data", "0719_input", "lemon_grove", "final_network")
+            fleetpy_demand_folder = os.path.join(base, "FleetPy_SanDiego", "data", "demand", "lemon_grove_example_demand", "matched", "lemon_grove_example_network")
+            output_folder = os.path.join(base, "Data", "0719_input", "lemon_grove", "output_folder")
+
+    return demand_folder, initial_network_folder, final_network_folder, fleetpy_demand_folder, output_folder

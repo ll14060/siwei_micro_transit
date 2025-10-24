@@ -8,15 +8,15 @@ import io
 import pandas as pd
 
 def copy_csv(filename,iteration):
-    indiv_output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/indiv_output_folder"
+    indiv_output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/indiv_output_folder")
     df = pd.read_csv(filename)
     output_file_dic=new_path=os.path.join(indiv_output_folder,'iter_%s_1_user-stats.csv' % str(iteration))
     df.to_csv(output_file_dic,index=False)
 
 
 # def copy_csv(csv_string,iteration):
-#     indiv_output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/indiv_output_folder"
-#     # Fleetpy_output_folder="D:/Ritun/Siwei_Micro_Transit/Data/0719_input/FleetPy_output/"
+#     indiv_output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/indiv_output_folder"
+#     # Fleetpy_output_folder=os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/FleetPy_output/"
 #     # Fleetpy_user_stats = os.path.join(Fleetpy_output_folder, "1_user-stats.csv")
 #     new_path=os.path.join(indiv_output_folder,'iter_%s_1_user-stats.csv' % str(iteration))
 #     with io.StringIO(csv_string) as csv_in, open (new_path,'w+', newline='') as out_csv:
@@ -89,10 +89,9 @@ def update_network_files(repositioning,microtransit,headway,virstop,M_operating_
     # D:\Siwei_Micro_Transit\FleetPy_SanDiego\studies\example_study\results\example_pool_irsonly_sc_1
     # D:\Siwei_Micro_Transit\Data\0719_input\FleetPy_output
     if repositioning==True:
-        Fleetpy_output_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/studies/example_study/results/example_pool_repo_AM_sc_1"
-    else:
-        Fleetpy_output_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/studies/example_study/results/example_pool_irsonly_sc_1"
-    # Fleetpy_output_folder="D:/Ritun/Siwei_Micro_Transit/Data/0719_input/FleetPy_output/"
+        Fleetpy_output_folder = os.path.expanduser(os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/studies/example_study/results/example_pool_repo_AM_sc_1"))
+        Fleetpy_output_folder = os.path.expanduser(os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/studies/example_study/results/example_pool_irsonly_sc_1"))
+    # Fleetpy_output_folder=os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/FleetPy_output/"
     Fleetpy_user_stats = os.path.join(Fleetpy_output_folder, "1_user-stats.csv")
 
     copy_csv(Fleetpy_user_stats, iteration)
@@ -272,112 +271,111 @@ def update_network_files(repositioning,microtransit,headway,virstop,M_operating_
 
         f.close()
 
-    # final_network_folder="D:/Ritun/Siwei_Micro_Transit/Data/0719_input/final_network"
-    # initial_network_folder="D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_network"
+    # final_network_folder=os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/final_network"
+    # initial_network_folder=os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_network"
 ##################################################################################
     # if study_area == "downtown_sd":
-    #     demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/demand_folder"
+    #     demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/demand_folder"
     #     if dt_sd_full_trnst_ntwk == True:
     #         if zonal_partition == True:
-    #             initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network_4_zones"
+    #             initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network_4_zones"
     #         else:
-    #             initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network"
+    #             initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network"
     #     else:
-    #         initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_network"
-    #     final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/final_network"
-    #     fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
-    #     output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/output_folder"
+    #         initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_network"
+    #     final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/final_network"
+    #     fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
+    #     output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/output_folder"
     #
     # if study_area == "lemon_grove":
-    #     demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder"
+    #     demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder"
     #     if zonal_partition == False:
-    #         initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
+    #         initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
     #     else:
-    #         initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network_4_zones"
+    #         initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network_4_zones"
     #
-    #     # initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
-    #     final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network"
-    #     fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/example_network"
-    #     output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder"
+    #     # initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
+    #     final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network"
+    #     fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/example_network"
+    #     output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder"
     ###############################################################
 
     if TRPartA == True:
 
         if BayesianOptimization== True:
-            #output_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/output_folder" % str(study_area)
+            #output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/output_folder" % str(study_area)
             #D:\Siwei_Micro_Transit\Bayesian_Optimization\demand_data\downtown_sd
-            demand_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/demand_data/%s" % str(study_area)
+            demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/demand_data/%s" % str(study_area))
             if study_area == "downtown_sd":
                 # D:\Siwei_Micro_Transit\TR_PartA\Data\downtown_sd\initial_network_folder\initial_full_transit_network
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
+                fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network")
                 if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_full_transit_network_4_zones" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_full_transit_network_4_zones" % str(
+                        study_area))
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_full_transit_network" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_full_transit_network" % str(
+                        study_area))
             if study_area == "lemon_grove":
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network"
+                fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network")
                 if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_network_4_zones" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_network_4_zones" % str(
+                        study_area))
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_network" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/initial_network_folder/initial_network" % str(
+                        study_area))
                     # D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\initial_network_folder\initial_network
-            final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/final_network_folder" % str(study_area)
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/Bayesian_Optimization/%s/output_folder" % str(study_area)
+            final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/final_network_folder" % str(study_area))
+            output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/%s/output_folder" % str(study_area))
             # D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\output_folder
         else:
 
-            demand_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/demand_data/%s" % str(study_area)
+            demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/demand_data/%s" % str(study_area))
             if study_area == "downtown_sd":
                 # D:\Siwei_Micro_Transit\TR_PartA\Data\downtown_sd\initial_network_folder\initial_full_transit_network
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
+                fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network")
                 if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_full_transit_network_4_zones" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_full_transit_network_4_zones" % str(study_area))
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_full_transit_network" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_full_transit_network" % str(
+                        study_area))
             if study_area == "lemon_grove":
-                fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network"
+                fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network")
                 if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_network_4_zones" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_network_4_zones" % str(
+                        study_area))
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_network" % str(
-                        study_area)
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/%s/initial_network_folder/initial_network" % str(
+                        study_area))
                     # D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\initial_network_folder\initial_network
-            final_network_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/final_network_folder" % str(study_area)
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/TR_PartA/Data/%s/output_folder" % str(study_area)
+            final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/%s/final_network_folder" % str(study_area))
+            output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/TR_PartA/Data/%s/output_folder" % str(study_area))
             # D:\Siwei_Micro_Transit\TR_PartA\Data\lemon_grove\output_folder
 
 
     else:
         if study_area == "downtown_sd":
-            demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/demand_folder"
+            demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/demand_folder")
             if dt_sd_full_trnst_ntwk == True:
                 if zonal_partition == True:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network_4_zones"
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network_4_zones")
                 else:
-                    initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network"
+                    initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_full_transit_network")
             else:
-                initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_network"
-            final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/final_network"
-            fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/output_folder"
+                initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_network")
+            final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/final_network")
+            fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network")
+            output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/output_folder")
 
         if study_area == "lemon_grove":
 
-            demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder"
+            demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder")
             if zonal_partition == False:
-                initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
+                initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network")
             else:
-                initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network_4_zones"
-            final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network"
-            fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network"
-            output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder"
+                initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network_4_zones")
+            final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network")
+            fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/lemon_grove_example_network")
+            output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder")
 
     headway_scenarios = [20, 30, 60]
     # microtransit_scenarios = ["micro", "non_micro"]
@@ -537,18 +535,18 @@ def update_network_files(repositioning,microtransit,headway,virstop,M_operating_
 
 def cal_iter_micro_link_diff(headway,virstop,M_operating_hrs,fleet_size,study_area,debug):
     if study_area == "downtown_sd":
-        demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/demand_folder"
-        initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/initial_network"
-        final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/final_network"
-        fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network"
-        output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/output_folder"
+        demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/demand_folder")
+        initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/initial_network")
+        final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/final_network")
+        fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/example_demand/matched/example_network")
+        output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/output_folder")
 
     if study_area == "lemon_grove":
-        demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder"
-        initial_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network"
-        final_network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network"
-        fleetpy_demand_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/example_network"
-        output_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder"
+        demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/demand_folder")
+        initial_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/initial_network")
+        final_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/final_network")
+        fleetpy_demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/data/demand/lemon_grove_example_demand/matched/example_network")
+        output_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/lemon_grove/output_folder")
     time_periods = ["AM", "MD", "PM", "EV"]
     microtransit = "micro"
     micro_transit_travel_link=OrderedDict()

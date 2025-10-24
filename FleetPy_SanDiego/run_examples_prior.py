@@ -19,7 +19,6 @@ from src.misc.globals import *
 
 import inte_sys_mode_choice
 import convergence_test as conv_test
-import clustering_algorithms as c_a
 import network_algorithms as n_a
 import get_auto_skims as auto
 import get_walk_transit_skims as wt
@@ -30,8 +29,6 @@ import output_performance_metrics as output_metrics
 import folder_directory as fld_dir
 import testing_scenario_creation as tst_scen_create
 import pre_process.dictionary_initialization as dict_init
-from concurrent.futures import ProcessPoolExecutor
-
 # main functions
 # --------------
 def run_single_simulation(scenario_parameters):
@@ -45,21 +42,6 @@ def run_single_simulation(scenario_parameters):
     else:
         SF.run()
 
-def dijkstra_for_origin(args):
-    (cluster, node, current_network, study_area, transit_fare, microtransit_start_fare,
-     microtransit_dist_based_rate, dt_sd_full_trnst_ntwk, PkFareFactor, OffPkFareFactor,
-     Fixed2MicroFactor, Micro2FixedFactor) = args
-
-    cluster_copy = cluster.copy()
-    cluster_copy["initial"] = node - 1171
-
-    result = c_a.generalized_cost_dijkstra_cluster_source_to_all(
-        study_area, current_network, cluster_copy, transit_fare, microtransit_start_fare,
-        microtransit_dist_based_rate, dt_sd_full_trnst_ntwk, PkFareFactor, OffPkFareFactor,
-        Fixed2MicroFactor, Micro2FixedFactor, test_scenario=0, mode="T", verbose=False
-    )
-
-    return cluster_copy["cluster_id"], cluster_copy["initial"], result
 
 def run_scenarios(constant_config_file, scenario_file, n_parallel_sim=1, n_cpu_per_sim=1, evaluate=1, log_level="info",
                   keep_old=False, continue_next_after_error=False):
@@ -92,7 +74,6 @@ def run_scenarios(constant_config_file, scenario_file, n_parallel_sim=1, n_cpu_p
     assert type(n_parallel_sim) == int, "n_parallel_sim must be of type int"
     # read constant and scenario config files
     constant_cfg = config.ConstantConfig(constant_config_file)
-    print(scenario_file) #Debug
     scenario_cfgs = config.ScenarioConfig(scenario_file)
 
     # set constant parameters from function arguments
@@ -433,7 +414,6 @@ if __name__ == "__main__":
                 #05/14:Comment for now
                 ####################
                 demand_folder,initial_network_folder,final_network_folder,fleetpy_demand_folder,output_folder=fld_dir.determine_dolders(study_area,dt_sd_full_trnst_ntwk,zonal_partition,TRPartA,BayesianOptimization)
-                
                 new_fleetpy_demand = os.path.join(fleetpy_demand_folder,"%s_debug_%s_fleetpy_demand.csv" % (str(study_area), str(debug_mode)))
                 #############
                 ## transit information
@@ -477,7 +457,7 @@ if __name__ == "__main__":
                     else:
                         for i in range(732):
                             MicroTransitNodes[773 + i] = i #downtown_sd SD: microtransit node 773 - corresponding to - walking node 0 (microtransit node 0 in fleetpy)
-            
+
                 else:
                     for i in range(1099):
                         MicroTransitNodes[1171 + i] = i #lemon_grove: microtransit node 1171 - corresponding to - walking node 0 (microtransit node 0 in fleetpy)
@@ -489,13 +469,13 @@ if __name__ == "__main__":
 
                 auto_network_dir=os.path.join(initial_network_folder,"auto_edges.csv")
                 auto_network = n_a.read_super_network(auto_network_dir)
+
                 ##############################
                 #### Create initial and final network scenarios
                 ###################
                 ######################################################
 
                 initial_super_network_dir, initial_super_network, final_super_network_dir, final_super_network=tst_scen_create.scen_create(microtransit_setup_scenarios,virtual_stop_scenarios,operating_periods_scenarios,time_periods,fleet_size_scenarios,headway_scenarios,initial_network_folder,final_network_folder)
-
                 #################################################
                 # 1108: prepare for the request files - demand side
                 ###################################################
@@ -740,6 +720,9 @@ if __name__ == "__main__":
                                                             VMT_auto = 0
                                                             VMT_W = 0
 
+
+
+
                                                             #################################################
                                                             #Demand component: calculate how many travelers will choose transit, how many will choose auto
                                                             # Write into FleetPy's demand input directly
@@ -768,43 +751,7 @@ if __name__ == "__main__":
                                                             initial_super_network["non_micro"][headway]=n_a.read_super_network(initial_super_network_dir["non_micro"][headway])
 
                                                             change_mode_ag_list=[]
-
-                                                            # --- Main replacement ---
-                                                            cluster_info = c_a.clustering(agent_list_)
-                                                            cluster_paths = {}
-
-                                                            if iteration == 0:
-                                                                current_network = initial_super_network[microtransit_run][headway][virstop][M_operating_hrs]
-                                                            else:
-                                                                current_network = final_super_network[microtransit_run][headway][virstop][M_operating_hrs][time_period][fleet_size]
-
-                                                            # prepare all cluster-node combinations
-                                                            args_list = [
-                                                                (
-                                                                    cluster, node, current_network, study_area, transit_fare, microtransit_start_fare,
-                                                                    microtransit_dist_based_rate, dt_sd_full_trnst_ntwk, PkFareFactor, OffPkFareFactor,
-                                                                    Fixed2MicroFactor, Micro2FixedFactor
-                                                                )
-                                                                for cluster in cluster_info
-                                                                for node in current_network
-                                                            ]
-
-                                                            with ProcessPoolExecutor() as executor:
-                                                                for cluster_id, origin, result in executor.map(dijkstra_for_origin, args_list):
-                                                                    if cluster_id not in cluster_paths:
-                                                                        cluster_paths[cluster_id] = {}
-                                                                    cluster_paths[cluster_id][origin] = {
-                                                                        "visited_temp": result[0],
-                                                                        "time_visited_temp": result[1],
-                                                                        "dist_visited_temp": result[2],
-                                                                        "fare_visited_temp": result[3],
-                                                                        "F_fare_visited_temp": result[4],
-                                                                        "M_fare_visited_temp": result[5],
-                                                                        "path": result[6],
-                                                                        "time_path": result[7],
-                                                                        "dist_path": result[8],
-                                                                    }
-                                                                    
+                                                            print("Demand Component.....assigning travelers to different modes...")
                                                             with open(F_transit_trips, 'w+', newline='') as csvfile_F:
                                                                 fieldnames_F = ["depart_time", "start", "end", "request_id"]
                                                                 writer_F = csv.DictWriter(csvfile_F, fieldnames=fieldnames_F)
@@ -815,15 +762,14 @@ if __name__ == "__main__":
                                                                     writer_M = csv.DictWriter(csvfile_M, fieldnames=fieldnames_M)
                                                                     writer_M.writeheader()
 
-                                                                    M_rq_id_list = []                         
+                                                                    M_rq_id_list = []
                                                                     for agent in agent_list_:
                                                                         change_mode=True  #change_mode is True, unless the probability difference is smaller than the mode_change_threshold
+
                                                                         origin = agent.rq_O
                                                                         dest = agent.rq_D
                                                                         rq_time = agent.rq_time
                                                                         rq_id = agent.rq_id
-                                                                        cid = agent.cluster_id
-
 
                                                                         agent_O[rq_id] = origin
                                                                         agent_D[rq_id] = dest
@@ -877,7 +823,7 @@ if __name__ == "__main__":
                                                                         # *****don't calculate it along the way - only*********
                                                                         # calculate generalized cost shortest path for agent on Auto network
                                                                         if ((num_headway_scen == 1) and (num_virstop_scen == 1) and (num_fleet_size_scen == 1) and (num_operating_periods_scen == 1) and (iteration==0) and (TRPartA==False)) or ((TRPartA==True) and (test_scenario== TRPartA_test_scenario_list[0])):
-                                                                            auto_visited_temp, auto_time_visited_temp, auto_dist_visited_temp, auto_fare_visited_temp,F_fare_visited_temp,M_fare_visited_temp, auto_path, auto_time_path,auto_dist_path = c_a.reconstruct_path_and_metrics(agent, cluster_paths)
+                                                                            auto_visited_temp, auto_time_visited_temp, auto_dist_visited_temp, auto_fare_visited_temp,F_fare_visited_temp,M_fare_visited_temp, auto_path, auto_time_path,auto_dist_path = n_a.generalized_cost_dijsktra_OD_heap(study_area,auto_network, agent,transit_fare,microtransit_start_fare,microtransit_dist_based_rate,dt_sd_full_trnst_ntwk,PkFareFactor,OffPkFareFactor,Fixed2MicroFactor,Micro2FixedFactor,test_scenario=0, mode="C", verbose=False)
                                                                             auto_time_path_all_ = n_a.getTrajectory_O_to_D(origin, dest,auto_time_path,auto_visited_temp)
                                                                             agent_auto_visited_temp[rq_id] = auto_visited_temp
                                                                             agent_auto_time_visited_temp[rq_id] = auto_time_visited_temp
@@ -899,7 +845,7 @@ if __name__ == "__main__":
                                                                         # if :
                                                                         # calculate generalized cost shortest path for agent on W_F network
                                                                         if ((num_virstop_scen==1) and (num_fleet_size_scen==1) and (num_operating_periods_scen==1) and (iteration==0) and (TRPartA==False)) or ((TRPartA==True) and (test_scenario== TRPartA_test_scenario_list[0])):
-                                                                                visited_temp_F, time_visited_temp_F, dist_visited_temp_F, fare_visited_temp_F,F_fare_visited_temp_F,M_fare_visited_temp_F, path_F, time_path_F,dist_path_F = c_a.reconstruct_path_and_metrics(agent, cluster_paths)
+                                                                                visited_temp_F, time_visited_temp_F, dist_visited_temp_F, fare_visited_temp_F,F_fare_visited_temp_F,M_fare_visited_temp_F, path_F, time_path_F,dist_path_F = n_a.generalized_cost_dijsktra_OD_heap(study_area,T_F_network, agent,transit_fare, microtransit_start_fare,microtransit_dist_based_rate,dt_sd_full_trnst_ntwk,PkFareFactor,OffPkFareFactor,Fixed2MicroFactor,Micro2FixedFactor,test_scenario,mode="T",verbose=False)
                                                                                 transit_time_path_all_F = n_a.getTrajectory_O_to_D(origin, dest,time_path_F,visited_temp_F)
                                                                                 transit_dist_path_all_F = n_a.getTrajectory_O_to_D(origin, dest,dist_path_F,dist_visited_temp_F)  # calculate fixed transit VMT
 
@@ -926,10 +872,10 @@ if __name__ == "__main__":
                                                                         if microtransit_run == "micro_only" and (time_period not in operating_periods):
                                                                             aaa=0
                                                                         else:
-                                                                            visited_temp, time_visited_temp,dist_visited_temp,fare_visited_temp,F_fare_visited_temp,M_fare_visited_temp, path, time_path,dist_path = c_a.reconstruct_path_and_metrics(agent, cluster_paths)
+                                                                            visited_temp, time_visited_temp,dist_visited_temp,fare_visited_temp,F_fare_visited_temp,M_fare_visited_temp, path, time_path,dist_path = n_a.generalized_cost_dijsktra_OD_heap(study_area,T_micro_network,agent,transit_fare,microtransit_start_fare,microtransit_dist_based_rate,dt_sd_full_trnst_ntwk,PkFareFactor,OffPkFareFactor,Fixed2MicroFactor,Micro2FixedFactor,test_scenario,mode="T",verbose=False)
                                                                             transit_time_path_all_ = n_a.getTrajectory_O_to_D(origin, dest, time_path, visited_temp)
                                                                             transit_dist_path_all_ = n_a.getTrajectory_O_to_D(origin, dest, dist_path,dist_visited_temp) #calculate microtransit and fixed transit VMT
-                                                                    
+
                                                                         if microtransit_run == "micro_only":
                                                                             aaa=0
                                                                             gen_cost_F = 0
@@ -1041,7 +987,7 @@ if __name__ == "__main__":
                                                                                 # off_micro_ag_VMT_F[rq_id] = off_micro_ag_dist_F
 
                                                                                 off_micro_agent_gen_cost[rq_id]=gen_cost_F
-                                                                                trimmed_transit_time_path_F = transit_time_path_all_F[1:-1]                                                                                
+                                                                                trimmed_transit_time_path_F = transit_time_path_all_F[1:-1]
                                                                                 pre_link_type = None
                                                                                 # request_time=test_agent.rq_time
                                                                                 sum_link_type_F = 0  # recorde the pure walking trips
@@ -1360,7 +1306,7 @@ if __name__ == "__main__":
                                                                     # print("assign pro iteration",iteration)
                                                                     # iter_agent_choice_prob[iteration] = agent_choice_prob
                                                                     # print("assign pro iteration", iteration,"iter_agent_choice_prob[iteration]",iter_agent_choice_prob[iteration])
-                                                                    
+
                                                                     if len(M_rq_id_list) == 0:
                                                                         raise RuntimeError(f"No microtransit requests were written to {new_fleetpy_demand}")
                                                                 csvfile_M.close()

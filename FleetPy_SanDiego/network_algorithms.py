@@ -117,32 +117,36 @@ class Agent(object):
 
 
 
+import csv
+
 def read_request(request_file):
-    with open(request_file) as f:
-        csvreader = csv.DictReader(f)
-        agent_list = []
+    agent_list = []
+    print(f"[read_request] Opening demand file: {request_file}")  # <-- added
+    with open(request_file, newline="") as f:
+        reader = csv.DictReader(f)
 
-        #rq_time	start	end	request_id	bt_0	bt_wk	bt_wt	bt_m_ivt	bt_f_ivt	bt_f_trfer	bt_fr
+        # Normalize header once
+        reader.fieldnames = [h.strip().lower() for h in reader.fieldnames]
+        print("Header seen by DictReader:", reader.fieldnames)
 
-        # ['rq_time', 'start','end','request_id', "bt_c_0","bt_c_ivt","bt_c_gas","bt_t_0","bt_t_wk","bt_t_wt","bt_m_ivt","bt_f_ivt","bt_f_trfer","bt_t_fr"]
+        for i, data in enumerate(reader):
+            # normalize row keys too
+            data = {k.strip().lower(): (v.strip() if v is not None else "") 
+                    for k, v in data.items()}
 
-        for data in csvreader:
-            #read trip related attributes
             rq_time = int(data["rq_time"])
             start = int(data["start"])
             end = int(data["end"])
             request_id = int(float(data["request_id"]))
-            #read car mode attributes
+
             bt_c_0 = float(data["bt_c_0"])
             bt_c_ivt = float(data["bt_c_ivt"])
             bt_c_gas = float(data["bt_c_gas"])
-            #read transit mode attributes
+
             bt_t_0 = float(data["bt_t_0"])
             bt_t_wk = float(data["bt_t_wk"])
-            # bt_t_wt = float(data["bt_t_wt"])
             bt_m_wt = float(data["bt_m_wt"])
             bt_f_wt = float(data["bt_f_wt"])
-
             bt_m_ivt = float(data["bt_m_ivt"])
             bt_f_ivt = float(data["bt_f_ivt"])
             bt_f_trfer = float(data["bt_f_trfer"])
@@ -152,13 +156,19 @@ def read_request(request_file):
             transit_15min_acc = float(data["transit_15min_acc"])
             transit_pass = int(float(data["transit_pass"]))
 
-            agent_ = Agent(rq_id=request_id, rq_O=start, rq_D=end, rq_time=rq_time, bt_c_0=bt_c_0, bt_c_ivt=bt_c_ivt,
-                           bt_c_gas=bt_c_gas,bt_t_0=bt_t_0, bt_t_wk=bt_t_wk, bt_m_wt=bt_m_wt,bt_f_wt=bt_f_wt,bt_m_ivt=bt_m_ivt,
-                          bt_f_ivt=bt_f_ivt,bt_f_trfer=bt_f_trfer, bt_t_fr=bt_t_fr,income=income,
-                           transit_15min_acc=transit_15min_acc,transit_pass=transit_pass)
+            agent_ = Agent(
+                rq_id=request_id, rq_O=start, rq_D=end, rq_time=rq_time,
+                bt_c_0=bt_c_0, bt_c_ivt=bt_c_ivt, bt_c_gas=bt_c_gas,
+                bt_t_0=bt_t_0, bt_t_wk=bt_t_wk,
+               bt_m_wt=bt_m_wt, bt_f_wt=bt_f_wt,
+                bt_m_ivt=bt_m_ivt, bt_f_ivt=bt_f_ivt, bt_f_trfer=bt_f_trfer,
+                bt_t_fr=bt_t_fr, 
+               income=income, transit_15min_acc=transit_15min_acc, transit_pass=transit_pass
+            )
             agent_list.append(agent_)
 
     return agent_list
+
 
 def read_network(Network_file):
     with open(Network_file) as f:
@@ -199,16 +209,15 @@ def read_super_network(Network_file):
             length = float(data["distance"]) #meter
             free_flow_travel_time_ = float(data["travel_time"])  # in second
             link_type_ = int(data["link_type"])  # link_type
-            route_ = int(data["route"])
             l = Link(link_id=len(links),length=length,
                      from_node=origin_node, to_node=to_node, flow=float(0.0),
-                     free_flow_travel_time=free_flow_travel_time_, link_type=link_type_,route=route_)
+                     free_flow_travel_time=free_flow_travel_time_, link_type=link_type_)
             links.append(l)
 
     graph = nx.DiGraph()
     print("number of links:",len(links))
     for l in links:
-        graph.add_edge(l.from_node, l.to_node, object=l, time=l.free_flow_time,link_type=l.link_type,route=l.route)
+        graph.add_edge(l.from_node, l.to_node, object=l, time=l.free_flow_time,link_type=l.link_type)
 
     return graph
 
@@ -568,8 +577,9 @@ def get_link_type_from_O_to_D(origin, destination, path):
     destination_ = rtrajectory[0]
     rtrajectory_ = []
     pre_node = destination_
-    for node, time, link_type,route in rtrajectory[1:]:
-        rtrajectory_.append((pre_node, time, link_type,route))
+
+    for node, time, link_type, _ in rtrajectory[1:]:
+        rtrajectory_.append((pre_node, time, link_type))
         pre_node = node
         if link_type==4:
             IsMicroLink=True
@@ -613,7 +623,7 @@ def generalized_cost_dijsktra_OD_heap(study_area,graph, agent,transit_fare_set,m
     # transit mode attributes
     bt_t_0 = agent.bt_t_0  #
     bt_t_wk = agent.bt_t_wk  #
-    # bt_t_wt = agent.bt_t_wt  #
+   # bt_t_wt = agent.bt_t_wt  #
 
     bt_m_wt = agent.bt_m_wt
     bt_f_wt = agent.bt_f_wt
@@ -625,7 +635,7 @@ def generalized_cost_dijsktra_OD_heap(study_area,graph, agent,transit_fare_set,m
 
     income = agent.income
     transit_15min_acc = agent.transit_15min_acc
-    # transit_pass = agent.transit_pass
+    transit_pass = agent.transit_pass
 
     if study_area=="downtown_sd":
         low_acc_thrshd=34986
@@ -925,7 +935,7 @@ def generalized_cost_dijsktra_OD_heap(study_area,graph, agent,transit_fare_set,m
                 #                 print("temp",temp)
                 if edge not in visited_temp or temp < visited_temp[edge]:
                     visited_temp[edge] = temp
-                    path[edge] = (min_node, temp, link_type_,route)
+                    path[edge] = (min_node, temp, link_type_, route)
                     # node_path_link_type_list[edge]=node_path_link_type_list[min_node]
                     # node_path_link_type_list[edge].append(link_type_)
                     heapq.heappush(heap_q,Heap_Node(edge, temp))  # 11/02: Heap: push the new calculated nodes into heap
@@ -937,8 +947,8 @@ def generalized_cost_dijsktra_OD_heap(study_area,graph, agent,transit_fare_set,m
                     M_fare_visited_temp[edge] = M_fare_temp
                     auto_gas_visited_temp[edge] = auto_gas_temp
 
-                    time_path[edge] = (min_node, time_temp, link_type_,route)
-                    dist_path[edge] = (min_node, dist_temp, link_type_,route)
+                    time_path[edge] = (min_node, time_temp, link_type_, route)
+                    dist_path[edge] = (min_node, dist_temp, link_type_, route)
 
                 if verbose == True:
                     try:
@@ -958,8 +968,10 @@ def generalized_cost_dijsktra_OD_heap(study_area,graph, agent,transit_fare_set,m
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
     print("start time:",start_time)
-    new_network_folder = "D:/Ritun/Siwei_Micro_Transit/Ritun/Latest network 2"
-    demand_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input/demand_folder"
+
+    new_network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Ritun/Latest network 2")
+    demand_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input/demand_folder")
+
     for headway in [20]:  # [20,30,60]
         for percentage in [50]:  # [50,75,100]
             final_super_network_edges = os.path.join(new_network_folder, "super_network_%s_virstop_%s_hw_edges.csv" % (str(percentage), str(headway)))

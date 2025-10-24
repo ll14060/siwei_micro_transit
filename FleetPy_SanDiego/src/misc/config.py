@@ -65,6 +65,7 @@ def decode_config_str(in_string):
             return None
         else:
             return in_string
+        
     # one special case: dictionary with one key "number:number" -> yaml 1.1 interpretation as sexagesimal number
     if not CAPTURE_RE.fullmatch(in_string):
         # First, try to interpret string as YAML
@@ -122,10 +123,17 @@ class ConstantConfig(dict):
         :type file_path: str
         """
         cfg = cls()
-        constant_series = pd.read_csv(file_path, index_col=0, squeeze=True, comment="#")
-        for k, v in constant_series.items():
-            cfg[k] = decode_config_str(v)
-        return cfg
+        constant_df = pd.read_csv(file_path, index_col=0, comment="#")
+        # constant_df looks like:
+        # index: parameter names
+        # one column with parameter values
+
+        for param_name, row in constant_df.iterrows():
+            # row is a Series with one element (parameter value)
+            value = row.iloc[0]
+            cfg[param_name] = decode_config_str(value)
+        print(cfg)
+        return cfg 
 
     @classmethod
     def read_yaml(cls, file_path):

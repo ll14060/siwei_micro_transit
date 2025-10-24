@@ -10,7 +10,7 @@ import networkx as nx
 import networkx as nx
 import csv
 import math
-from scipy.misc import derivative
+#from scipy.misc import derivative
 import scipy.integrate as integrate
 import numpy as np
 import random

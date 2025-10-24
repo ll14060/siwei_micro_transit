@@ -33,10 +33,10 @@ def get_node_ct(study_area):
     node_census_tract = OrderedDict()
     demand_nodes_fleetpy = []
     if study_area == "downtown_sd":
-        network_folder = 'D:/Ritun/Siwei_Micro_Transit/Data/0719_input'
+        network_folder = os.path.expanduser('~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input')
 
     if study_area == "lemon_grove":
-        network_folder = 'D:/Ritun/Siwei_Micro_Transit/Ritun/Lemon Grove/Network_folder'
+        network_folder = os.path.expanduser('~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Ritun/Lemon Grove/Network_folder')
     pre_node_dir = os.path.join(network_folder, 'pre_nodes.csv')
 
     with open(pre_node_dir) as f:
@@ -108,7 +108,7 @@ def get_microtransit_skims():
 
     # D:\Siwei_Micro_Transit\FleetPy_SanDiego\studies\example_study\results\example_pool_irsonly_sc_1
     # D:\Siwei_Micro_Transit\Data\0719_input\FleetPy_output
-    Fleetpy_output_folder = "D:/Ritun/Siwei_Micro_Transit/FleetPy_SanDiego/studies/example_study/results/example_pool_irsonly_sc_1"
+    Fleetpy_output_folder = os.path.expanduser("~Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/FleetPy_SanDiego/studies/example_study/results/example_pool_irsonly_sc_1")
     # Fleetpy_output_folder="D:/Ritun/Siwei_Micro_Transit/Data/0719_input/FleetPy_output/"
     Fleetpy_user_stats = os.path.join(Fleetpy_output_folder, "1_user-stats.csv")
 
