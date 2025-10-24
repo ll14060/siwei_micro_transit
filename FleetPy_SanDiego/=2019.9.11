@@ -1,0 +1,34 @@
+Requirement already satisfied: certifi in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (2019.9.11)
+Collecting click==7.0
+  Using cached Click-7.0-py2.py3-none-any.whl.metadata (3.5 kB)
+Collecting click-plugins==1.1.1
+  Using cached click_plugins-1.1.1-py2.py3-none-any.whl.metadata (6.4 kB)
+Collecting cligj==0.7.1
+  Using cached cligj-0.7.1-py3-none-any.whl.metadata (5.0 kB)
+Collecting dill==0.3.3
+  Using cached dill-0.3.3-py2.py3-none-any.whl.metadata (6.8 kB)
+Requirement already satisfied: Fiona==1.8.4 in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (1.8.4)
+Requirement already satisfied: attrs>=17 in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (from Fiona==1.8.4) (24.2.0)
+Requirement already satisfied: six>=1.7 in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (from Fiona==1.8.4) (1.17.0)
+Requirement already satisfied: munch in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (from Fiona==1.8.4) (4.0.0)
+Requirement already satisfied: importlib-metadata in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (from attrs>=17->Fiona==1.8.4) (6.7.0)
+Requirement already satisfied: zipp>=0.5 in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (from importlib-metadata->attrs>=17->Fiona==1.8.4) (3.15.0)
+Requirement already satisfied: typing-extensions>=3.6.4 in /home/ll140/miniconda3/envs/test/lib/python3.7/site-packages (from importlib-metadata->attrs>=17->Fiona==1.8.4) (4.7.1)
+Using cached Click-7.0-py2.py3-none-any.whl (81 kB)
+Using cached click_plugins-1.1.1-py2.py3-none-any.whl (7.5 kB)
+Using cached cligj-0.7.1-py3-none-any.whl (7.1 kB)
+Using cached dill-0.3.3-py2.py3-none-any.whl (81 kB)
+Installing collected packages: dill, click, cligj, click-plugins
+  Attempting uninstall: click
+    Found existing installation: click 7.1.2
+    Uninstalling click-7.1.2:
+      Successfully uninstalled click-7.1.2
+  Attempting uninstall: cligj
+    Found existing installation: cligj 0.7.2
+    Uninstalling cligj-0.7.2:
+      Successfully uninstalled cligj-0.7.2
+  Attempting uninstall: click-plugins
+    Found existing installation: click-plugins 1.1.1.2
+    Uninstalling click-plugins-1.1.1.2:
+      Successfully uninstalled click-plugins-1.1.1.2
+Successfully installed click-7.0 click-plugins-1.1.1 cligj-0.7.1 dill-0.3.3

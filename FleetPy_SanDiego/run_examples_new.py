@@ -296,8 +296,13 @@ if __name__ == "__main__":
     pre_timeatfinished=start_time
     print("program starts here......start time is:", start_time)
     # zonal_partition=True
-    input_para_folder=os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Bayesian_Optimization/Input_parameter") 
-    input_para_dir=os.path.join(input_para_folder,"input_parameter.csv")
+    
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    script_dir = os.path.abspath(os.path.join(script_dir, ".."))
+    input_para_folder = os.path.join(script_dir, "Bayesian_Optimization", "Input_parameter")
+    input_para_dir = os.path.join(input_para_folder, "input_parameter.csv")
+    
+
     TRPartA_test_scenario_list=[]
     debug_mode_list=[]
     test_area=[]

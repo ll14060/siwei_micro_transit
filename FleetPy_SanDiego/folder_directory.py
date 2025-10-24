@@ -1,7 +1,8 @@
 import os
 
 def determine_dolders(study_area, dt_sd_full_trnst_ntwk, zonal_partition, TRPartA, BayesianOptimization):
-    base = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit")
+    base = os.path.dirname(os.path.abspath(__file__))
+    base = os.path.abspath(os.path.join(base, ".."))
 
     if TRPartA:
         if BayesianOptimization:

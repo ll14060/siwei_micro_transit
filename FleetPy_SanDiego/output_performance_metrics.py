@@ -8,7 +8,7 @@ import pandas as pd
 import os
 
 # Base directory
-BASE_DIR = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit")
+BASE_DIR = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", ".."))
 
 # Core folders
 network_folder = os.path.join(BASE_DIR, "Data/0719_input")
@@ -223,8 +223,7 @@ def get_fleetpy_demand_nodes():
 def create_nodes_emp_dict(study_area,dt_sd_full_trnst_ntwk,zonal_partition=False,debug=False):
 
     # Base directory
-    BASE_DIR = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit")
-
+    BASE_DIR = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", ".."))
     # Common folders
     network_folder = os.path.join(BASE_DIR, "Data/0719_input")
     SANDAG_landuse = os.path.join(network_folder, "final_land_use.csv")
@@ -279,8 +278,6 @@ def create_nodes_emp_dict(study_area,dt_sd_full_trnst_ntwk,zonal_partition=False
 
 
     super_network_emp=os.path.join(output_folder,"super_network_nodes_emp.csv")
-
-
 
     # MGRA_nodes_mapping=os.path.join(MGRA_nodes_mapping_folder,"MGRA_demand_nodes_mapping.csv")
     Nodes_MGRA_mapping = os.path.join(MGRA_nodes_mapping_folder, "Nodes_MGRA_mapping.csv")
@@ -669,7 +666,7 @@ def all_scenario_fixed_acc_calculation(headway,study_area,debug_mode,dt_sd_full_
     minutes_set = [5, 10, 15]
     minute_acc_emp = OrderedDict()
     demand_nodes_fleetpy = get_fleetpy_demand_nodes()
-    BASE_DIR = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit")
+    BASE_DIR = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", ".."))
     network_folder = os.path.join(BASE_DIR, "Data/0719_input")
 
     if study_area == "downtown_sd":
@@ -865,16 +862,20 @@ def get_fleetpy_eval_output_metrics(repositioning):
 def get_transit_line_dist(study_area,dt_sd_full_trnst_ntwk):
     if study_area == "downtown_sd":
         if dt_sd_full_trnst_ntwk==True:
-            network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/Downtown_SD_New_Transit_network/Road_network")
-            new_transit_network_file = os.path.join(network_folder, "super_network_transit_edges.csv")
+            script_dir = os.path.abspath(os.path.join(script_dir, ".."))
+            input_para_folder = os.path.join(script_dir, "Data", "Downtown_SD_New_Transit_network", "Road_network")
+            input_para_dir = os.path.join(input_para_folder, "super_network_transit_edges.csv")
         else:
-            network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input")
-            new_transit_network_file = os.path.join(network_folder, "new_nodes_transit_network.csv")
-
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            script_dir = os.path.abspath(os.path.join(script_dir, ".."))
+            input_para_folder = os.path.join(script_dir, "Data", "0719_input")
+            input_para_dir = os.path.join(input_para_folder, "new_nodes_transit_network.csv")
     if study_area == "lemon_grove":
-        network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Ritun/Lemon Grove")
-        new_transit_network_file = os.path.join(network_folder, "super_network_transit_edges.csv")
-
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        script_dir = os.path.abspath(os.path.join(script_dir, ".."))
+        input_para_folder = os.path.join(script_dir, "Ritun", "Lemon Grove")
+        new_transit_network_file  = os.path.join(input_para_folder, "super_network_transit_edges.csv")
+            
     with open(new_transit_network_file) as transit_network:
         csvreader = csv.DictReader(transit_network)
         routes=[]
@@ -957,14 +958,13 @@ def get_transit_line_duration(study_area,dt_sd_full_trnst_ntwk,transit_line_dist
 def get_transit_link_info(study_area,dt_sd_full_trnst_ntwk):
     if study_area == "downtown_sd":
         if dt_sd_full_trnst_ntwk==True:
-            network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/Downtown_SD_New_Transit_network/Road_network")
+            network_folder = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", "..", "Data", "'Downtown_SD_New_Transit_network", "Road_network"))
             new_transit_network_file = os.path.join(network_folder, "super_network_transit_edges.csv")
         else:
-            network_folder =  os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input")
-            new_transit_network_file = os.path.join(network_folder, "new_nodes_transit_network.csv")
-
+            network_folder = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", "..", "Data", "'0719_input"))
+            new_transit_network_file = os.path.join(network_folder, "new_nodes_transit_network.csv")            
     if study_area == "lemon_grove":
-        network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Ritun/Lemon Grove")
+        network_folder = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", "..", "Ritun", "Lemon Grove"))
         new_transit_network_file = os.path.join(network_folder, "super_network_transit_edges.csv")
 
     transit_link_list=[]
@@ -1003,10 +1003,11 @@ def vmt_and_link_dict_creation(time_periods,transit_link_list):
 def write_fixed_transit_link_vmt(study_area,dt_sd_full_trnst_ntwk,fleet_size,M_operating_hrs,headway,virstop,transit_link_vmt,transit_link_pax,TRPartA,BayesianOptimization,test_scenario,debug_mode,microtransit):
     if study_area == "downtown_sd":
         if dt_sd_full_trnst_ntwk==True:
-            network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/Downtown_SD_New_Transit_network/Road_network")
+            network_folder = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", "..", "Data", "'Downtown_SD_New_Transit_network", "Road_network"))
             new_transit_network_file = os.path.join(network_folder, "super_network_transit_edges.csv")
         else:
-            network_folder = os.path.expanduser("~/Downloads/Siwei_Micro_Transit/Siwei_Micro_Transit/Data/0719_input")
+            network_folder = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", "..", "Data", "'0719_Input"))
+            new_transit_network_file = os.path.join(network_folder, "super_network_transit_edges.csv")
             new_transit_network_file = os.path.join(network_folder, "new_nodes_transit_network.csv")
         # network_folder = "D:/Ritun/Siwei_Micro_Transit/Data/0719_input"
         # new_transit_network_file = os.path.join(network_folder, "new_nodes_transit_network.csv")
